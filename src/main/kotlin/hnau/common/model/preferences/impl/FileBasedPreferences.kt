@@ -1,5 +1,6 @@
 package hnau.common.model.preferences.impl
 
+import arrow.core.Option
 import arrow.core.toOption
 import hnau.common.model.preferences.Preference
 import hnau.common.model.preferences.Preferences
@@ -31,13 +32,20 @@ class FileBasedPreferences(
 
     override fun get(
         key: String,
-    ): Preference<String> = Preference(
+    ): Preference<Option<String>> = Preference(
         value = values.mapState(scope) { values ->
             values[key].toOption()
         },
-        update = { newValue ->
+        update = { newValueOrNone ->
             updateMutex.withLock {
-                val newValues = values.value + (key to newValue)
+                val newValues = newValueOrNone.fold(
+                    ifEmpty = {
+                        values.value - key
+                    },
+                    ifSome = {newValue ->
+                        values.value + (key to newValue)
+                    }
+                )
                 updateValues(newValues)
                 values.value = newValues
             }
