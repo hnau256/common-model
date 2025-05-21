@@ -1,4 +1,4 @@
-package hnau.common.app.goback
+package hnau.common.model.goback
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay

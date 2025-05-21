@@ -1,4 +1,4 @@
-package hnau.common.app.messages
+package hnau.common.model.messages
 
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow

@@ -1,4 +1,4 @@
-package hnau.common.app.preferences
+package hnau.common.model.preferences
 
 import kotlinx.coroutines.CoroutineScope
 

@@ -1,4 +1,4 @@
-package hnau.common.app.goback
+package hnau.common.model.goback
 
 import hnau.common.kotlin.coroutines.flatMapState
 import kotlinx.coroutines.CoroutineScope

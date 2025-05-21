@@ -1,4 +1,4 @@
-package hnau.common.app.messages
+package hnau.common.model.messages
 
 interface MessagesReceiver<T> {
 

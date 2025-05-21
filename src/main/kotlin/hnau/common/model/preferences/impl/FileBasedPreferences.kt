@@ -1,8 +1,8 @@
-package hnau.common.app.preferences.impl
+package hnau.common.model.preferences.impl
 
 import arrow.core.toOption
-import hnau.common.app.preferences.Preference
-import hnau.common.app.preferences.Preferences
+import hnau.common.model.preferences.Preference
+import hnau.common.model.preferences.Preferences
 import hnau.common.kotlin.coroutines.mapState
 import hnau.common.kotlin.coroutines.toMutableStateFlowAsInitial
 import hnau.common.kotlin.mapper.Mapper

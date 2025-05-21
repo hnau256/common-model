@@ -1,7 +1,7 @@
-package hnau.common.app.model.stack
+package hnau.common.model.model.stack
 
-import hnau.common.app.goback.GoBackHandler
-import hnau.common.app.goback.GoBackHandlerProvider
+import hnau.common.model.goback.GoBackHandler
+import hnau.common.model.goback.GoBackHandlerProvider
 import hnau.common.kotlin.coroutines.flatMapState
 import hnau.common.kotlin.coroutines.mapState
 import kotlinx.coroutines.CoroutineScope

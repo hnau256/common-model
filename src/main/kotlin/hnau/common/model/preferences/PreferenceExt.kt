@@ -1,4 +1,4 @@
-package hnau.common.app.preferences
+package hnau.common.model.preferences
 
 import hnau.common.kotlin.coroutines.mapState
 import hnau.common.kotlin.mapper.Mapper

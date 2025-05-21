@@ -1,4 +1,4 @@
-package hnau.common.app.model.stack
+package hnau.common.model.model.stack
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update

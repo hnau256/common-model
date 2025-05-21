@@ -1,4 +1,4 @@
-package hnau.common.app
+package hnau.common.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

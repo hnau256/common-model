@@ -1,4 +1,4 @@
-package hnau.common.app
+package hnau.common.model
 
 import hnau.common.kotlin.mapper.Mapper
 import hnau.common.kotlin.serialization.MappingKSerializer
