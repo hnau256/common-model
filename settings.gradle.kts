@@ -1,1 +1,1 @@
-rootProject.name = "common-app"
+rootProject.name = "common-model"
