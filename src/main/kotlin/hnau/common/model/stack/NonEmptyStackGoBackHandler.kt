@@ -1,4 +1,4 @@
-package hnau.common.model.model.stack
+package hnau.common.model.stack
 
 import hnau.common.model.goback.GoBackHandler
 import hnau.common.model.goback.GoBackHandlerProvider

@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "com.github.hnau256"
-version = "1.0.1"
+version = "1.0.2"
 
 repositories {
     mavenCentral()
@@ -15,7 +15,9 @@ repositories {
 
 dependencies {
     implementation("com.github.hnau256:common-kotlin:1.0.0")
-    implementation("io.arrow-kt:arrow-core:1.2.4")
+    val arrow = "1.2.4"
+    implementation("io.arrow-kt:arrow-core:$arrow")
+    implementation("io.arrow-kt:arrow-core-serialization:$arrow")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.8.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.1")
 }

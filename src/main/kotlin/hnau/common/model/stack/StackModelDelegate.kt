@@ -1,4 +1,4 @@
-package hnau.common.model.model.stack
+package hnau.common.model.stack
 
 import hnau.common.kotlin.coroutines.mapReusable
 import kotlinx.coroutines.CoroutineScope
