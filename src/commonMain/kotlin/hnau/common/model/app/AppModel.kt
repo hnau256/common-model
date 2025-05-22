@@ -1,18 +1,11 @@
 package hnau.common.model.app
 
-import hnau.common.kotlin.Loadable
-import hnau.common.kotlin.LoadableStateFlow
-import hnau.common.kotlin.coroutines.flatMapState
-import hnau.common.kotlin.coroutines.mapWithScope
-import hnau.common.kotlin.fold
-import hnau.common.kotlin.map
 import hnau.common.kotlin.mapper.Mapper
 import hnau.common.kotlin.mapper.toMapper
 import hnau.common.model.app.utils.AppContext
 import hnau.common.model.goback.GoBackHandler
-import hnau.common.model.goback.NeverGoBackHandler
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 
 class AppModel<M, S>(
@@ -31,14 +24,7 @@ class AppModel<M, S>(
         ?.let(modelSkeletonMapper.direct)
         ?: seed.createDefaultSkeleton()
 
-    data class State<M>(
-        val context: AppContext,
-        val model: M,
-    )
-
-    val state: StateFlow<Loadable<State<M>>> = LoadableStateFlow(
-        scope = scope,
-    ) {
+    val appContext: AppContext = runBlocking {
         AppContext(
             scope = scope,
             defaultBrightness = seed.defaultBrightness,
@@ -46,24 +32,15 @@ class AppModel<M, S>(
             fallbackHue = seed.fallbackHue,
             filesDir = appFilesDirProvider.getAppFilesDir(),
         )
-    }.mapWithScope(scope) { modelScope, appContextOrLoading ->
-        appContextOrLoading.map { appContext ->
-            State(
-                context = appContext,
-                model = seed.createModel(modelScope, appContext, modelSkeleton),
-            )
-        }
     }
+
+    val model: M = seed.createModel(scope, appContext, modelSkeleton)
 
     val savableState: SavedState
         get() = modelSkeletonMapper.reverse(modelSkeleton).let(::SavedState)
 
-    val goBackHandler: GoBackHandler = state.flatMapState(scope) { modelOrLoading ->
-        modelOrLoading.fold(
-            ifLoading = { NeverGoBackHandler },
-            ifReady = { seed.extractGoBackHandler(it.model) },
-        )
-    }
+    val goBackHandler: GoBackHandler =
+        seed.extractGoBackHandler(model)
 
     companion object {
 
