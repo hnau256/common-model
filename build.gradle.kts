@@ -17,7 +17,7 @@ repositories {
 }
 
 group = "com.github.hnau256"
-version = "1.0.9"
+version = "1.0.10"
 
 android {
     namespace = "com.github.hnau256." + project.name.replace('-', '.')
@@ -37,7 +37,7 @@ android {
 }
 
 kotlin {
-    jvm("desktop")
+    jvm()
 
     androidTarget {
         compilerOptions {
