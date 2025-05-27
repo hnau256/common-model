@@ -29,7 +29,9 @@ class AppViewModel<M, S>(
                 .get<Bundle>(StateKey)
                 ?.getString(StateKey),
         ),
-        context = context,
+        appFilesDirProvider = AppFilesDirProvider(
+            context = context,
+        ),
         defaultTryUseSystemHue = defaultTryUseSystemHue,
         seed = seed,
     )
