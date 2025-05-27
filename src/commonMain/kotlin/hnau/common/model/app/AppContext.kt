@@ -3,7 +3,7 @@ package hnau.common.model.app
 import hnau.common.model.ThemeBrightness
 import hnau.common.model.color.material.MaterialHue
 import hnau.common.model.preferences.Preference
-import java.io.File
+import hnau.common.model.file.File
 
 data class AppContext(
     val brightness: Preference<ThemeBrightness?>,

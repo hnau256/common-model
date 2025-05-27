@@ -2,22 +2,28 @@ package hnau.common.model.preferences.impl
 
 import arrow.core.Option
 import arrow.core.toOption
-import hnau.common.model.preferences.Preference
-import hnau.common.model.preferences.Preferences
 import hnau.common.kotlin.coroutines.mapState
 import hnau.common.kotlin.coroutines.toMutableStateFlowAsInitial
 import hnau.common.kotlin.mapper.Mapper
 import hnau.common.kotlin.mapper.plus
 import hnau.common.kotlin.mapper.stringToStringsBySeparator
 import hnau.common.kotlin.mapper.stringToStringsPairBySeparator
+import hnau.common.model.file.File
+import hnau.common.model.file.exists
+import hnau.common.model.file.sink
+import hnau.common.model.file.source
+import hnau.common.model.preferences.Preference
+import hnau.common.model.preferences.Preferences
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
-import java.io.File
-import java.nio.charset.Charset
+import kotlinx.io.buffered
+import kotlinx.io.readString
+import kotlinx.io.writeString
 
 class FileBasedPreferences(
     private val scope: CoroutineScope,
@@ -42,7 +48,7 @@ class FileBasedPreferences(
                     ifEmpty = {
                         values.value - key
                     },
-                    ifSome = {newValue ->
+                    ifSome = { newValue ->
                         values.value + (key to newValue)
                     }
                 )
@@ -61,8 +67,10 @@ class FileBasedPreferences(
         ): Preferences {
             val text = withContext(Dispatchers.IO) {
                 preferencesFile
-                    .takeIf { it.exists() }
-                    ?.readText(charset = charset)
+                    .takeIf(File::exists)
+                    ?.source()
+                    ?.use { source -> source.buffered().readString() }
+
             }
             val initialValues = withContext(Dispatchers.Default) {
                 text
@@ -77,10 +85,11 @@ class FileBasedPreferences(
                         newValues.let(stringToValuesMapper.reverse)
                     }
                     withContext(Dispatchers.IO) {
-                        preferencesFile.writeText(
-                            text = text,
-                            charset = charset,
-                        )
+                        preferencesFile
+                            .sink()
+                            .use { sink ->
+                                sink.buffered().writeString(text)
+                            }
                     }
                 }
             )
@@ -105,8 +114,6 @@ class FileBasedPreferences(
 
                 entriesStringsMapper + entriesMapper
             }
-
-            private val charset: Charset = Charsets.UTF_8
         }
     }
 }
