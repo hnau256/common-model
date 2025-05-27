@@ -3,7 +3,6 @@ package hnau.common.model.color
 import hnau.common.kotlin.serialization.MappingKSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.builtins.serializer
-import kotlin.jvm.JvmInline
 
 @Serializable(RGBABytes.Serializer::class)
 @JvmInline

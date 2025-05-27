@@ -1,5 +1,6 @@
 package hnau.common.model.app
 
+import android.content.Context
 import hnau.common.kotlin.mapper.Mapper
 import hnau.common.kotlin.mapper.toMapper
 import hnau.common.model.app.utils.AppContext
@@ -10,8 +11,8 @@ import kotlinx.serialization.json.Json
 
 class AppModel<M, S>(
     scope: CoroutineScope,
+    context: Context,
     savedState: SavedState,
-    appFilesDirProvider: AppFilesDirProvider,
     defaultTryUseSystemHue: Boolean,
     seed: AppSeed<M, S>,
 ) {
@@ -30,7 +31,7 @@ class AppModel<M, S>(
             defaultBrightness = seed.defaultBrightness,
             defaultTryUseSystemHue = defaultTryUseSystemHue,
             fallbackHue = seed.fallbackHue,
-            filesDir = appFilesDirProvider.getAppFilesDir(),
+            filesDir = context.filesDir,
         )
     }
 
