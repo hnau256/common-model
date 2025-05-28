@@ -10,6 +10,8 @@ import hnau.common.kotlin.mapper.stringToStringsBySeparator
 import hnau.common.kotlin.mapper.stringToStringsPairBySeparator
 import hnau.common.model.file.File
 import hnau.common.model.file.exists
+import hnau.common.model.file.mkDirs
+import hnau.common.model.file.parent
 import hnau.common.model.file.sink
 import hnau.common.model.file.source
 import hnau.common.model.preferences.Preference
@@ -86,9 +88,11 @@ class FileBasedPreferences(
                     }
                     withContext(Dispatchers.IO) {
                         preferencesFile
+                            .apply { parent?.mkDirs() }
                             .sink()
+                            .buffered()
                             .use { sink ->
-                                sink.buffered().writeString(text)
+                                sink.writeString(text)
                             }
                     }
                 }
