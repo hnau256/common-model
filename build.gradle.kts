@@ -17,7 +17,7 @@ repositories {
 }
 
 group = "com.github.hnau256"
-version = "1.0.13"
+version = "1.0.14"
 
 android {
     namespace = "com.github.hnau256." + project.name.replace('-', '.')
@@ -58,7 +58,7 @@ kotlin {
                 implementation("io.arrow-kt:arrow-core-serialization:$arrow")
 
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.1")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.1")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
                 implementation("org.jetbrains.kotlinx:kotlinx-io-core:0.7.0")
             }
         }

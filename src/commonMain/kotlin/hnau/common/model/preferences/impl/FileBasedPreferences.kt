@@ -4,10 +4,10 @@ import arrow.core.Option
 import arrow.core.toOption
 import hnau.common.kotlin.coroutines.mapState
 import hnau.common.kotlin.coroutines.toMutableStateFlowAsInitial
+import hnau.common.kotlin.ifNull
 import hnau.common.kotlin.mapper.Mapper
 import hnau.common.kotlin.mapper.plus
 import hnau.common.kotlin.mapper.stringToStringsBySeparator
-import hnau.common.kotlin.mapper.stringToStringsPairBySeparator
 import hnau.common.model.file.File
 import hnau.common.model.file.exists
 import hnau.common.model.file.mkDirs
@@ -103,10 +103,21 @@ class FileBasedPreferences(
 
             private val stringToValuesMapper: Mapper<String, Map<String, String>> = run {
 
-                val entryMapper: Mapper<String, Pair<String, String>> =
-                    Mapper.stringToStringsPairBySeparator(
-                        separator = ':',
+                val entryMapper: Mapper<String, Pair<String, String>> = ':'.let { separator ->
+                    Mapper(
+                        direct = { line ->
+                            val separatorIndex = line.indexOf(separator)
+                                .takeIf { it > 0 }
+                                .ifNull { error("Unable parse key with value from '$line'") }
+                            val key = line.substring(0, separatorIndex)
+                            val value = line.substring(separatorIndex + 1)
+                            key to value
+                        },
+                        reverse = { (key, value) ->
+                            key + separator + value
+                        }
                     )
+                }
 
                 val entriesMapper = Mapper<List<String>, Map<String, String>>(
                     direct = { it.associate(entryMapper.direct) },
